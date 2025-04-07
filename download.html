@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download Source Asuma - Ditss</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' }
+  </script>
+</head>
+<body class="bg-gray-900 dark:bg-white text-white dark:text-black transition duration-300 font-sans">
+  <div class="max-w-2xl mx-auto py-12 px-4">
+
+    <!-- Tombol Mode -->
+    <div class="flex justify-end mb-6">
+      <button onclick="toggleTheme()" class="px-3 py-1 bg-cyan-600 text-white dark:bg-gray-700 dark:text-white rounded text-sm">Toggle Mode</button>
+    </div>
+
+    <!-- Judul -->
+    <h1 class="text-3xl font-bold text-center mb-6">Download Source Code Asuma</h1>
+    <p class="text-center text-sm mb-8">Kamu bisa download source code bot WhatsApp Asuma Multi Device secara gratis di sini.</p>
+
+    <!-- Link Download -->
+    <div class="bg-gray-800 dark:bg-gray-200 p-6 rounded-lg shadow-lg">
+      <h2 class="text-xl font-semibold mb-4">Source Code Asuma</h2>
+      <p class="mb-4 text-sm text-gray-300 dark:text-gray-700">Klik tombol di bawah untuk mengunduh source code:</p>
+      <a href="https://github.com/ditss/asuma" target="_blank" class="block text-center bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+        Download dari GitHub
+      </a>
+    </div>
+
+    <!-- Navigasi -->
+    <div class="flex justify-center text-sm text-gray-300 dark:text-gray-600 mt-8">
+      <a href="index.html" class="underline hover:text-white dark:hover:text-black">Kembali ke Halaman Utama</a>
+    </div>
+
+    <!-- Footer -->
+    <p class="text-center text-xs text-gray-500 dark:text-gray-600 mt-6">powered by <strong>Ditss</strong></p>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      document.documentElement.classList.toggle('dark');
+    }
+  </script>
+</body>
+</html>
