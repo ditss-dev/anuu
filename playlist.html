@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Playlist Musik - Ditss</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' };
+  </script>
+  <style>
+    .bar {
+      width: 6px;
+      margin: 0 2px;
+      background: #22d3ee;
+      display: inline-block;
+      animation: bounce 1s infinite ease-in-out;
+    }
+
+    @keyframes bounce {
+      0%, 100% { height: 10px; }
+      50% { height: 30px; }
+    }
+
+    .visualizer {
+      display: flex;
+      justify-content: center;
+      align-items: end;
+      height: 40px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 dark:bg-white text-white dark:text-black transition duration-300 font-sans">
+  <div class="max-w-lg mx-auto py-10 px-4">
+
+    <!-- Toggle -->
+    <div class="flex justify-end mb-4">
+      <button onclick="toggleTheme()" class="px-3 py-1 bg-cyan-600 text-white dark:bg-gray-700 dark:text-white rounded text-sm">Toggle Mode</button>
+    </div>
+
+    <!-- Judul -->
+    <h1 class="text-2xl font-bold text-center mb-6">Playlist Musik Ditss</h1>
+
+    <!-- Efek Bass Visual -->
+    <div class="visualizer" id="visualizer">
+      <div class="bar h-4" style="animation-delay: 0s;"></div>
+      <div class="bar h-4" style="animation-delay: 0.1s;"></div>
+      <div class="bar h-4" style="animation-delay: 0.2s;"></div>
+      <div class="bar h-4" style="animation-delay: 0.3s;"></div>
+      <div class="bar h-4" style="animation-delay: 0.4s;"></div>
+      <div class="bar h-4" style="animation-delay: 0.5s;"></div>
+      <div class="bar h-4" style="animation-delay: 0.6s;"></div>
+    </div>
+
+    <!-- Player -->
+    <div class="bg-gray-800 dark:bg-gray-200 p-5 rounded-lg shadow-lg">
+      <audio id="audioPlayer" controls class="w-full mb-4">
+        <source id="audioSource" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        Browser kamu tidak mendukung audio.
+      </audio>
+
+      <label class="block text-sm font-medium mb-2">Pilih Lagu:</label>
+      <select id="songSelect" onchange="changeSong()" class="w-full p-2 rounded bg-gray-700 dark:bg-white text-white dark:text-black mb-4">
+        <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">SoundHelix Song 1</option>
+        <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">SoundHelix Song 2</option>
+        <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3">SoundHelix Song 3</option>
+      </select>
+
+      <label class="block text-sm font-medium mb-2">Mode Pemutaran:</label>
+      <select id="modeSelect" class="w-full p-2 rounded bg-gray-700 dark:bg-white text-white dark:text-black">
+        <option value="sequential">Berurutan</option>
+        <option value="random">Acak</option>
+      </select>
+    </div>
+
+    <!-- Navigasi -->
+    <div class="flex justify-center text-sm text-gray-300 dark:text-gray-600 mt-8">
+      <a href="index.html" class="underline hover:text-white dark:hover:text-black">Kembali ke Halaman Utama</a>
+    </div>
+
+    <!-- Footer -->
+    <p class="text-center text-xs text-gray-500 dark:text-gray-600 mt-6">powered by <strong>Ditss</strong></p>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      document.documentElement.classList.toggle('dark');
+    }
+
+    function changeSong() {
+      const select = document.getElementById('songSelect');
+      const player = document.getElementById('audioPlayer');
+      const source = document.getElementById('audioSource');
+      source.src = select.value;
+      player.load();
+      player.play();
+    }
+
+    const player = document.getElementById('audioPlayer');
+    const source = document.getElementById('audioSource');
+    const select = document.getElementById('songSelect');
+    const modeSelect = document.getElementById('modeSelect');
+
+    player.addEventListener('ended', () => {
+      const mode = modeSelect.value;
+      const options = [...select.options];
+      const current = select.selectedIndex;
+
+      let nextIndex;
+      if (mode === 'random') {
+        do {
+          nextIndex = Math.floor(Math.random() * options.length);
+        } while (nextIndex === current && options.length > 1);
+      } else {
+        nextIndex = (current + 1) % options.length;
+      }
+
+      select.selectedIndex = nextIndex;
+      changeSong();
+    });
+
+    // Simulasi visualizer gerak random
+    const bars = document.querySelectorAll(".bar");
+    setInterval(() => {
+      bars.forEach(bar => {
+        bar.style.height = `${10 + Math.random() * 30}px`;
+      });
+    }, 150);
+  </script>
+</body>
+</html>
