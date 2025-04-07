@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Payment Ditss</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+    };
+  </script>
   <style>
     .typing-text {
       font-size: 1.875rem;
@@ -26,77 +31,114 @@
       from, to { border-color: transparent }
       50% { border-color: #00ffcc }
     }
+    .pulse {
+      animation: pulse 2s infinite;
+    }
   </style>
 </head>
-<body class="bg-gray-900 text-white font-sans">
+<body class="bg-gray-900 dark:bg-white text-white dark:text-black transition duration-300 font-sans">
   <div class="max-w-md mx-auto py-10 px-4">
+
+    <!-- Toggle Mode -->
+    <div class="flex justify-end mb-4">
+      <button onclick="toggleTheme()" class="px-3 py-1 bg-cyan-600 text-white dark:bg-gray-700 dark:text-white rounded text-sm">Toggle Mode</button>
+    </div>
 
     <!-- Logo -->
     <div class="flex justify-center mb-4">
-      <img src="https://files.catbox.moe/mwuol9.jpg" alt="Ditss Logo" class="w-20 h-20 rounded-full shadow-lg" />
+      <img src="https://img12.pixhost.to/images/1486/584766403_ditss.jpg" alt="Ditss Logo" class="w-20 h-20 rounded-full shadow-lg" />
     </div>
 
     <!-- Judul -->
     <h1 class="typing-text">Payment Ditss</h1>
-    <p class="text-center text-gray-400 mb-8">Pilih metode pembayaran yang tersedia di bawah ini</p>
+    <p class="text-center text-gray-400 dark:text-gray-600 mb-8">Pilih metode pembayaran yang tersedia di bawah ini</p>
 
     <!-- Payment Cards -->
     <div class="space-y-4">
-      <div class="bg-gray-800 rounded-xl p-4 border-l-4 border-blue-500">
-        <div class="flex justify-between">
-          <span class="font-semibold">DANA</span>
+
+      <!-- DANA -->
+      <div class="bg-gray-800 dark:bg-gray-200 rounded-xl p-4 border-l-4 border-blue-500">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <img src="https://files.catbox.moe/i210w3.jpg" alt="Dana" class="w-6 h-6">
+            <span class="font-semibold">DANA</span>
+          </div>
           <span class="text-sm text-green-400">081513607731</span>
         </div>
-        <button onclick="copyToClipboard('081513607731')" class="mt-2 bg-blue-600 w-full py-2 rounded">Copy</button>
+        <button onclick="copyToClipboard('081513607731')" class="mt-2 bg-blue-600 dark:bg-blue-400 w-full py-2 rounded">Copy</button>
       </div>
 
-      <div class="bg-gray-800 rounded-xl p-4 border-l-4 border-purple-500">
-        <div class="flex justify-between">
-          <span class="font-semibold">OVO</span>
+      <!-- OVO -->
+      <div class="bg-gray-800 dark:bg-gray-200 rounded-xl p-4 border-l-4 border-purple-500">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <img src="https://img12.pixhost.to/images/1486/584767534_ditss.jpg" alt="OVO" class="w-6 h-6">
+            <span class="font-semibold">OVO</span>
+          </div>
           <span class="text-sm text-green-400">081513607731</span>
         </div>
-        <button onclick="copyToClipboard('081513607731')" class="mt-2 bg-purple-600 w-full py-2 rounded">Copy</button>
+        <button onclick="copyToClipboard('081513607731')" class="mt-2 bg-purple-600 dark:bg-purple-400 w-full py-2 rounded">Copy</button>
       </div>
 
-      <div class="bg-gray-800 rounded-xl p-4 border-l-4 border-green-500">
-        <div class="flex justify-between">
-          <span class="font-semibold">GoPay</span>
+      <!-- GoPay -->
+      <div class="bg-gray-800 dark:bg-gray-200 rounded-xl p-4 border-l-4 border-green-500">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <img src="https://img12.pixhost.to/images/1486/584766112_ditss.jpg" alt="GoPay" class="w-6 h-6">
+            <span class="font-semibold">GoPay</span>
+          </div>
           <span class="text-sm text-green-400">081513607731</span>
         </div>
-        <button onclick="copyToClipboard('081513607731')" class="mt-2 bg-green-600 w-full py-2 rounded">Copy</button>
+        <button onclick="copyToClipboard('081513607731')" class="mt-2 bg-green-600 dark:bg-green-400 w-full py-2 rounded">Copy</button>
       </div>
 
-      <div class="bg-gray-800 rounded-xl p-4 border-l-4 border-yellow-400">
-        <div class="flex justify-between">
-          <span class="font-semibold">ShopeePay</span>
+      <!-- ShopeePay -->
+      <div class="bg-gray-800 dark:bg-gray-200 rounded-xl p-4 border-l-4 border-yellow-400">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <img src="https://img12.pixhost.to/images/1486/584767499_ditss.jpg" alt="ShopeePay" class="w-6 h-6">
+            <span class="font-semibold">ShopeePay</span>
+          </div>
           <span class="text-sm text-green-400">081513607731</span>
         </div>
-        <button onclick="copyToClipboard('081513607731')" class="mt-2 bg-yellow-500 w-full py-2 rounded">Copy</button>
+        <button onclick="copyToClipboard('081513607731')" class="mt-2 bg-yellow-500 dark:bg-yellow-400 w-full py-2 rounded">Copy</button>
       </div>
 
-      <div class="bg-gray-800 rounded-xl p-4 border-l-4 border-cyan-500">
-        <div class="flex justify-between items-center">
-          <span class="font-semibold">QRIS</span>
-          <span class="text-sm text-green-400">Scan QR</span>
+      <!-- QRIS -->
+      <div class="bg-gray-800 dark:bg-gray-200 rounded-xl p-4 border-l-4 border-cyan-500">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <img src="https://files.catbox.moe/mwuol9.jpg" alt="QRIS" class="w-6 h-6">
+            <span class="font-semibold">QRIS</span>
+          </div>
+          <button onclick="toggleQRIS()" class="text-sm text-white bg-cyan-600 dark:bg-cyan-400 px-3 py-1 rounded">
+            Tampilkan QR
+          </button>
         </div>
-        <img src="https://i.ibb.co/6JF2Lqt/qris-sample.png" alt="QRIS" class="w-full mt-3 rounded-lg" />
+        <div id="qris-img" class="hidden">
+          <img src="https://img12.pixhost.to/images/1486/584766403_ditss.jpg" alt="QRIS" class="w-full mt-3 rounded-lg pulse" />
+        </div>
       </div>
+
     </div>
 
     <!-- Music Preview -->
-    <div class="mt-8 bg-gray-800 p-4 rounded-lg">
+    <div class="mt-8 bg-gray-800 dark:bg-gray-100 p-4 rounded-lg">
       <p class="font-semibold mb-2">Now Playing</p>
       <audio controls src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" class="w-full rounded"></audio>
-      <a href="playlist.html" class="block text-sm text-cyan-400 text-center mt-3 underline">Lihat Playlist Lengkap</a>
-    </div>
+      <a href="playlist.html" class="flex items-center justify-center gap-2 text-sm text-cyan-400 mt-3 underline hover:text-cyan-300">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify" class="w-5 h-5">
+  Lihat Playlist Lengkap
+</a>
+
 
     <!-- Navigasi -->
-    <div class="flex justify-center text-sm text-gray-300 mt-8">
-      <a href="download.html" class="underline hover:text-white">Download SC Asuma</a>
+    <div class="flex justify-center text-sm text-gray-300 dark:text-gray-600 mt-8">
+      <a href="download.html" class="underline hover:text-white dark:hover:text-black">Download SC Asuma</a>
     </div>
 
     <!-- Footer -->
-    <p class="text-center text-xs text-gray-500 mt-8">powered by <strong>Ditss</strong></p>
+    <p class="text-center text-xs text-gray-500 dark:text-gray-600 mt-8">powered by <strong>Ditss</strong></p>
   </div>
 
   <script>
@@ -104,6 +146,13 @@
       navigator.clipboard.writeText(text)
         .then(() => alert('Disalin ke clipboard!'))
         .catch(() => alert('Gagal menyalin!'));
+    }
+    function toggleTheme() {
+      document.documentElement.classList.toggle('dark');
+    }
+    function toggleQRIS() {
+      const qr = document.getElementById("qris-img");
+      qr.classList.toggle("hidden");
     }
   </script>
 </body>
