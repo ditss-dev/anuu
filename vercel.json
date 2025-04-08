@@ -4,6 +4,34 @@
     {
       "source": "/download",
       "destination": "/download.html"
+    },
+    {
+      "source": "/app-prem",
+      "destination": "/app-prem.html"
+    },
+    {
+      "source": "/joki",
+      "destination": "/joki.html"
+    },
+    {
+      "source": "/nokos",
+      "destination": "/nokos.html"
+    },
+    {
+      "source": "/payment",
+      "destination": "/payment.html"
+    },
+    {
+      "source": "/playlist",
+      "destination": "/playlist.html"
+    },
+    {
+      "source": "/pterodactyl",
+      "destination": "/pterodactyl.html"
+    },
+    {
+      "source": "/vps",
+      "destination": "/vps.html"
     }
   ]
 }
