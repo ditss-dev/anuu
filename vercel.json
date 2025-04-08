@@ -1,37 +1,45 @@
 {
   "version": 2,
-  "rewrites": [
+  "redirects": [
     {
       "source": "/download",
-      "destination": "/download.html"
+      "destination": "/download.html",
+      "permanent": true
     },
     {
       "source": "/app-prem",
-      "destination": "/app-prem.html"
+      "destination": "/app-prem.html",
+      "permanent": true
     },
     {
       "source": "/joki",
-      "destination": "/joki.html"
+      "destination": "/joki.html",
+      "permanent": true
     },
     {
       "source": "/nokos",
-      "destination": "/nokos.html"
+      "destination": "/nokos.html",
+      "permanent": true
     },
     {
       "source": "/payment",
-      "destination": "/payment.html"
+      "destination": "/payment.html",
+      "permanent": true
     },
     {
       "source": "/playlist",
-      "destination": "/playlist.html"
+      "destination": "/playlist.html",
+      "permanent": true
     },
     {
       "source": "/pterodactyl",
-      "destination": "/pterodactyl.html"
+      "destination": "/pterodactyl.html",
+      "permanent": true
     },
     {
       "source": "/vps",
-      "destination": "/vps.html"
+      "destination": "/vps.html",
+      "permanent": true
     }
   ]
 }
