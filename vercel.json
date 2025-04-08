@@ -1,23 +1,9 @@
 {
   "version": 2,
-  "headers": [
+  "rewrites": [
     {
       "source": "/download",
-      "headers": [
-        {
-          "key": "Location",
-          "value": "/download.html"
-        }
-      ]
-    },
-    {
-      "source": "/app-prem",
-      "headers": [
-        {
-          "key": "Location",
-          "value": "/app-prem.html"
-        }
-      ]
+      "destination": "/download.html"
     }
   ]
 }
