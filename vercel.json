@@ -1,17 +1,15 @@
 {
   "version": 2,
   "cleanUrls": true,
-  "redirects": [
-    {
-      "source": "/(.*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "ditss.store"
-        }
-      ],
-      "destination": "https://www.ditss.store/:1",
-      "permanent": true
-    }
+  "rewrites": [
+    { "source": "/download", "destination": "/download.html" },
+    { "source": "/pulsa", "destination": "/pulsa.html" },
+    { "source": "/panel", "destination": "/panel.html" },
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/app-prem", "destination": "/app-prem.html" },
+    { "source": "/kuota", "destination": "/kuota.html" },
+    { "source": "/voucher", "destination": "/voucher.html" },
+    { "source": "/nokos", "destination": "/nokos.html" },
+    { "source": "/vps", "destination": "/vps.html" }
   ]
 }
