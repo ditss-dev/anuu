@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>tools - ebase64 & debase64</title>
+  <title>Tools - Encode/Decode</title>
   <style>
     :root {
       --glow-color: #00ffe0;
@@ -114,7 +114,7 @@
 <canvas id="matrixCanvas"></canvas>
 
 <div class="container">
-  <h1>Tools Base64 Encoder / Decoder</h1>
+  <h1> Base64 Encoder / Decoder</h1>
 
   <div class="theme-switcher">
     <span>Pilih Tema:</span>
@@ -132,6 +132,7 @@
   <div id="output"></div>
 
   <button onclick="copyOutput()">Salin Output</button>
+<button onclick="clearInput()">Clear Input</button>
 
  <!-- CUKUP GANTI BAGIAN STYLE DAN POWERED DI BAWAH INI -->
 
@@ -280,6 +281,11 @@
   function setTheme(color) {
     document.documentElement.style.setProperty('--glow-color', color);
   }
+  
+  function clearInput() {
+  document.getElementById('input').value = '';
+  document.getElementById('output').innerText = '';
+}
 
   // MATRIX EFFECT
   const canvas = document.getElementById("matrixCanvas");
