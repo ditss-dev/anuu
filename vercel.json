@@ -1,45 +1,23 @@
 {
   "version": 2,
-  "redirects": [
+  "headers": [
     {
       "source": "/download",
-      "destination": "/download.html",
-      "permanent": true
+      "headers": [
+        {
+          "key": "Location",
+          "value": "/download.html"
+        }
+      ]
     },
     {
       "source": "/app-prem",
-      "destination": "/app-prem.html",
-      "permanent": true
-    },
-    {
-      "source": "/joki",
-      "destination": "/joki.html",
-      "permanent": true
-    },
-    {
-      "source": "/nokos",
-      "destination": "/nokos.html",
-      "permanent": true
-    },
-    {
-      "source": "/payment",
-      "destination": "/payment.html",
-      "permanent": true
-    },
-    {
-      "source": "/playlist",
-      "destination": "/playlist.html",
-      "permanent": true
-    },
-    {
-      "source": "/pterodactyl",
-      "destination": "/pterodactyl.html",
-      "permanent": true
-    },
-    {
-      "source": "/vps",
-      "destination": "/vps.html",
-      "permanent": true
+      "headers": [
+        {
+          "key": "Location",
+          "value": "/app-prem.html"
+        }
+      ]
     }
   ]
 }
