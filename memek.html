@@ -175,6 +175,68 @@
     transform: scale(1) rotate(360deg);
   }
 }
+     .status-barrrrrr {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 15px;
+  font-size: 14px;
+  z-index: 9999;
+  display: flex;
+  gap: 15px;
+  font-family: 'Arial', sans-serif;
+}
+.status-bar {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 15px;
+  font-size: 14px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: glowStatus 3s ease-in-out infinite;
+  text-align: right;
+}
+
+@keyframes glowStatus {
+  0%, 100% {
+    box-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+  }
+  50% {
+    box-shadow: 0 0 15px #f0f, 0 0 25px #f0f;
+  }
+}
+
+#greeting {
+  color: #ff0;
+  font-weight: 600;
+}
+
+#clock {
+  color: #0ff;
+  font-weight: bold;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+#battery {
+  color: #0f0;
+  font-weight: bold;
+}
+
 
     /* Efek Salju */
     .snowflake {
@@ -195,6 +257,11 @@
   </style>
 </head>
 <body>
+  <div class="status-bar">
+  <span id="greeting">.</span>
+  <span id="clock">00:00</span>
+  <span id="battery">Battery: --%</span>
+</div>
 
   <!-- Efek Hujan -->
   <div class="rain" id="rain"></div>
@@ -242,7 +309,6 @@
       loadSong(current);
       renderPlaylist();
     }
-
     function loadSong(index) {
       const song = playlist[index];
       title.textContent = song.title;
@@ -252,7 +318,6 @@
       audio.play();
       playButton.innerHTML = '<i class="fas fa-pause"></i>';
     }
-
     function renderPlaylist() {
       playlistEl.innerHTML = "";
       playlist.forEach((song, i) => {
@@ -340,5 +405,40 @@ function loadSong(index) {
       snowContainer.appendChild(snowflake);
     }
   </script>
+<script>
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours();
+  const m = String(now.getMinutes()).padStart(2, '0');
+  const s = String(now.getSeconds()).padStart(2, '0');
+  document.getElementById('clock').textContent = `${String(h).padStart(2, '0')}:${m}:${s}`;
+
+  let greeting = '';
+  if (h >= 0 && h < 12) {
+    greeting = 'Selamat pagi';
+  } else if (h >= 12 && h < 15) {
+    greeting = 'Selamat siang';
+  } else if (h >= 15 && h < 18) {
+    greeting = 'selamat sore';
+  } else {
+    greeting = 'selamat malam';
+  }
+
+  document.getElementById('greeting').textContent = greeting;
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+
+navigator.getBattery().then(battery => {
+  function updateBatteryStatus() {
+    const level = Math.round(battery.level * 100);
+    document.getElementById('battery').textContent = `Battery: ${level}%`;
+  }
+  updateBatteryStatus();
+  battery.addEventListener('levelchange', updateBatteryStatus);
+});
+</script>
+
 </body>
 </html>
