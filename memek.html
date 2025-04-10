@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Music Player Estetik</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #141e30, #243b55);
+      margin: 0;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #fff;
+    }
+
+    .player {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 30px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      animation: fadeIn 0.8s ease;
+    }
+
+    .song-info {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .song-info img {
+      width: 80px;
+      height: 80px;
+      border-radius: 15px;
+      object-fit: cover;
+      border: 2px solid #fff;
+    }
+
+    .song-text {
+      flex: 1;
+    }
+
+    .song-title {
+      font-size: 1.3em;
+      font-weight: 600;
+    }
+
+    .artist {
+      font-size: 0.9em;
+      color: #ddd;
+    }
+
+    .progress {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    input[type="range"] {
+      flex: 1;
+      accent-color: #00ffd5;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+    }
+
+    .controls button {
+      background: transparent;
+      border: 2px solid #00ffd5;
+      color: #00ffd5;
+      padding: 10px 14px;
+      font-size: 1.3em;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .controls button:hover {
+      background: #00ffd5;
+      color: #000;
+    }
+
+    #shuffleBtn.active {
+      box-shadow: 0 0 10px #00ffd5;
+      background: #00ffd5;
+      color: #000;
+    }
+
+    .playlist-toggle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      background: #111;
+      padding: 10px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1em;
+    }
+
+    .playlist {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 15px;
+      border-radius: 15px;
+      margin-top: 25px;
+      width: 100%;
+      max-width: 500px;
+    }
+     #jam {
+  font-family: 'Courier New', monospace;
+  font-size: 28px;
+  background: rgba(0,0,0,0.3);
+  padding: 5px 10px;
+  border-radius: 8px;
+  display: inline-block;
+}
+    .playlist-item {
+      padding: 8px;
+      border-radius: 10px;
+      margin: 3px 0;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .playlist-item:hover,
+    .playlist-item.active {
+      background: #00ffd52a;
+      color: #00ffd5;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+<!-- Tempelkan di bagian <body> tempat kamu ingin menampilkan jam -->
+<div id="jam" style="font-size: 24px; font-weight: bold; color: white;"></div>
+
+<!-- Tambahkan script ini di bagian bawah sebelum </body> -->
+<script>
+  function updateJam() {
+    const sekarang = new Date();
+    let jam = sekarang.getHours().toString().padStart(2, '0');
+    let menit = sekarang.getMinutes().toString().padStart(2, '0');
+    let detik = sekarang.getSeconds().toString().padStart(2, '0');
+
+    document.getElementById('jam').innerHTML = `${jam}:${menit}:${detik}`;
+  }
+
+  setInterval(updateJam, 1000); // update setiap detik
+  updateJam(); // panggil sekali di awal
+</script>
+  
+  <body>
+  <header>
+    <h1>juber</h1>
+    <div id=#jam></div> <!-- jam muncul di header -->
+  </header>
+  ...
+</body>
+  
+  <div class="player">
+    <div class="song-info">
+      <img id="cover" src="https://via.placeholder.com/100" />
+      <div class="song-text">
+        <div class="song-title" id="song-title">Song Title</div>
+        <div class="artist" id="artist-name">Artist Name</div>
+      </div>
+    </div>
+
+    <div class="progress">
+      <span id="current-time">00:00</span>
+      <input type="range" id="progress-bar" min="0" max="100" value="0">
+      <span id="duration">00:00</span>
+    </div>
+
+    <div class="controls">
+      <button onclick="playPrevious()">⏮️</button>
+      <button onclick="toggleShuffle()" id="shuffleBtn">🔀</button>
+      <button onclick="togglePlayPause()" id="playPause">▶</button>
+      <button onclick="playNext()">⏭️</button>
+    </div>
+     
+    <div class="playlist-toggle" onclick="togglePlaylist()">
+      <span>🎵 Lihat Playlist</span>
+      <span id="toggle-icon">▼</span>
+    </div>
+  </div>
+
+  <div class="playlist">
+    <div id="playlistItems" style="display: none;"></div>
+  </div>
+
+  <audio id="audio"></audio>
+
+  <script>
+    const audio = document.getElementById('audio');
+    const playPauseButton = document.getElementById('playPause');
+    const progressBar = document.getElementById('progress-bar');
+    const currentTimeDisplay = document.getElementById('current-time');
+    const durationDisplay = document.getElementById('duration');
+    const songTitle = document.getElementById('song-title');
+    const artistName = document.getElementById('artist-name');
+    const coverImage = document.getElementById('cover');
+    const shuffleBtn = document.getElementById('shuffleBtn');
+    const playlistItemsContainer = document.getElementById('playlistItems');
+
+    const playlist = [
+      {
+        title: "Rumah ke Rumah",
+        artist: "hindia",
+        src: "https://files.catbox.moe/7urylw.mp3",
+        cover: "https://img12.pixhost.to/images/1562/586250693_ditss.jpg"
+      },
+      {
+        title: "berdansalah karir ini tidak ada artinya",
+        artist: "hindia",
+        src: "https://files.catbox.moe/sha2en.mp3",
+        cover: "https://img12.pixhost.to/images/1562/586251358_ditss.jpg"
+      },
+      {
+        title: "bayangkan jika kita tidak menyerah",
+        artist: "hindia",
+        src: "https://files.catbox.moe/4ssmns.mp3",
+        cover: "https://img12.pixhost.to/images/1562/586252083_ditss.jpg"
+      },{
+        title: "cincin",
+        artist: "hindia",
+        src: "",
+        cover: "https://img12.pixhost.to/images/1562/586254498_ditss.jpg"
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      },{
+        title: "",
+        artist: "",
+        src: "",
+        cover: ""
+      }
+          ];
+
+    let currentSongIndex = 0;
+    let isShuffle = true;
+
+    function loadSong(index) {
+      const song = playlist[index];
+      audio.src = song.src;
+      songTitle.textContent = song.title;
+      artistName.textContent = song.artist;
+      coverImage.src = song.cover;
+      document.querySelectorAll('.playlist-item').forEach(el => el.classList.remove('active'));
+      document.querySelector(`.playlist-item[data-index="${index}"]`)?.classList.add('active');
+      progressBar.value = 0;
+      playPauseButton.textContent = "▶";
+    }
+
+    function togglePlayPause() {
+      if (audio.paused) {
+        audio.play();
+        playPauseButton.textContent = "❚❚";
+      } else {
+        audio.pause();
+        playPauseButton.textContent = "▶";
+      }
+    }
+
+    function playNext() {
+      if (isShuffle) {
+        let nextIndex;
+        do {
+          nextIndex = Math.floor(Math.random() * playlist.length);
+        } while (nextIndex === currentSongIndex && playlist.length > 1);
+        currentSongIndex = nextIndex;
+      } else {
+        currentSongIndex = (currentSongIndex + 1) % playlist.length;
+      }
+      loadSong(currentSongIndex);
+      audio.play();
+      playPauseButton.textContent = "❚❚";
+    }
+
+    function playPrevious() {
+      currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+      loadSong(currentSongIndex);
+      audio.play();
+      playPauseButton.textContent = "❚❚";
+    }
+
+    function toggleShuffle() {
+      isShuffle = !isShuffle;
+      shuffleBtn.classList.toggle('active', isShuffle);
+    }
+
+    function togglePlaylist() {
+      const playlistDiv = document.getElementById('playlistItems');
+      const icon = document.getElementById('toggle-icon');
+      if (playlistDiv.style.display === "none") {
+        playlistDiv.style.display = "block";
+        icon.textContent = "▲";
+      } else {
+        playlistDiv.style.display = "none";
+        icon.textContent = "▼";
+      }
+    }
+
+    function formatTime(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    audio.addEventListener('loadedmetadata', () => {
+      durationDisplay.textContent = formatTime(audio.duration);
+      progressBar.max = Math.floor(audio.duration);
+    });
+
+    audio.addEventListener('timeupdate', () => {
+      progressBar.value = Math.floor(audio.currentTime);
+      currentTimeDisplay.textContent = formatTime(audio.currentTime);
+    });
+
+    audio.addEventListener('ended', playNext);
+
+    progressBar.addEventListener('input', () => {
+      audio.currentTime = progressBar.value;
+    });
+
+    function renderPlaylist() {
+      playlistItemsContainer.innerHTML = "";
+      playlist.forEach((song, index) => {
+        const item = document.createElement('div');
+        item.className = 'playlist-item';
+        item.dataset.index = index;
+        item.textContent = `${song.title} - ${song.artist}`;
+        item.addEventListener('click', () => {
+          currentSongIndex = index;
+          loadSong(index);
+          audio.play();
+          playPauseButton.textContent = "❚❚";
+        });
+        playlistItemsContainer.appendChild(item);
+      });
+    }
+
+    // Load awal
+    loadSong(currentSongIndex);
+    renderPlaylist();
+  </script>
+</body>
+</html>
