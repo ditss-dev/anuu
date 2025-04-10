@@ -275,26 +275,17 @@
     <div class="artist" id="artist">Artis</div>
     
     <audio id="audio" controls style="width: 100%; margin-top: 10px;"></audio>
-    
     <div class="controls">
       <button id="prev" onclick="prevSong()"><i class="fas fa-backward"></i></button>
       <button id="play" onclick="togglePlayPause()"><i class="fas fa-play"></i></button>
       <button id="next" onclick="nextSong()"><i class="fas fa-forward"></i></button>
     </div>
-
     <div class="extra-controls">
       <button onclick="toggleShuffle()">Acak</button>
       <button onclick="togglePlaylist()">list</button>
     </div>
-
     <div class="playlist" id="playlist"></div>
   </div>
-
-<footer class="footer">
-  <p>Powered by <span class="brand">Ditss</span></p>
-</footer>
-
-  
   <script>
     const audio = document.getElementById("audio");
     const title = document.getElementById("title");
