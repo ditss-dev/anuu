@@ -45,61 +45,116 @@
       pointer-events: none;
       z-index: 0;
     }
+  .progress-container {
+    margin-top: 1rem;
+    background: #333;
+    height: 10px;
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #00ffff;
+    transition: width 0.3s ease;
+  }
   </style>
 </head>
-<body class="bg-gray-900 text-white font-sans transition duration-300">  
+<body class="bg-gray-900 text-white font-sans transition duration-300">
+
   <div id="loader"><div class="spinner"></div></div>
+
   <canvas id="snow" class="weather"></canvas>
   <canvas id="rain" class="weather"></canvas>
 
   <audio id="music" loop src="https://files.catbox.moe/aoaagd.mp3"></audio>
   <button onclick="toggleMusic()" class="fixed top-4 left-4 bg-cyan-600 p-2 rounded-full z-50">
     <svg id="playIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-      viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round"
-        stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-6.518-3.77A1 1 0 007 8.26v7.48a1 1 0 001.234.97l6.518-1.856A1 1 0 0016 13.83v-3.66a1 1 0 00-1.248-.997z"/>
-    </svg>
+         viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round"
+         stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-6.518-3.77A1 1 0 007 8.26v7.48a1 1 0 001.234.97l6.518-1.856A1 1 0 0016 13.83v-3.66a1 1 0 00-1.248-.997z"/></svg>
   </button>
 
   <button onclick="toggleTheme()" class="fixed top-4 right-4 bg-gray-700 p-2 rounded-full z-50">
     <img id="themeIcon" src="https://cdn-icons-png.flaticon.com/512/6714/6714978.png" alt="mode" class="w-5 h-5">
-  </button>  
+  </button>
 
   <div class="max-w-2xl mx-auto py-12 px-4 space-y-8">
     <h1 class="text-3xl font-bold text-center fade-up">Download Source Code Asuma</h1>
     <p class="text-center text-sm fade-up">Kamu bisa download source code bot WhatsApp Asuma Multi Device secara gratis di sini.</p>
-    
-    <!-- Script Asuma v6 -->
-    <div class="bg-gray-800 p-6 rounded-lg shadow-lg fade-up">
-      <a href="public/files/asuma-v6.zip" id="downloadLink" download
-        class="block text-center bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded transition duration-300">
-        Script Asuma v6
-      </a>
-      <div id="downloadProgress" class="hidden mt-4">
-        <div class="text-center text-sm text-gray-400">Downloading...</div>
-        <progress id="progressBar" value="0" max="100" class="w-full"></progress>
-      </div>
-    </div>
+<!-- Tambahkan di dalam setiap kotak unduhan -->
+<div class="bg-gray-800 p-6 rounded-lg shadow-lg fade-up">
+  <button onclick="startDownload('asuma-v6.zip', 'progress1', 'total1')"
+    class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+    Download Script Asuma v6
+  </button>
+  <div class="progress-container mt-2">
+    <div id="progress1" class="progress-bar"></div>
+  </div>
+  <p id="total1" class="text-xs text-gray-400 mt-1">Progress: 0%</p>
+</div>
 
-    <!-- Script Asuma v6.5.7 -->
-    <div class="bg-gray-800 p-6 rounded-lg shadow-lg fade-up">
-      <a href="public/files/asuma-v6.5.7.zip" download
-        class="block text-center bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded transition duration-300">
-        Script Asuma v6.5.7 (coming soon)
-      </a>
-    </div>
-
-    <script type="text/javascript" src="https://storage.sociabuzz.com/storage/js/main/buttononwebsite/index.min.js"></script>
-    <script>sbBoW.draw("adiett","ZG9uYXRl","position-bottom-right","#3a6c00","#FFFFFF")</script>
-
+<div class="bg-gray-800 p-6 rounded-lg shadow-lg fade-up">
+  <button onclick="startDownload('asuma-v6.5.7.zip', 'progress2', 'total2')"
+    class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+    Download Script Asuma v6.5.7 (coming soon)
+  </button>
+  <div class="progress-container mt-2">
+    <div id="progress2" class="progress-bar"></div>
+  </div>
+  <p id="total2" class="text-xs text-gray-400 mt-1">Progress: 0%</p>
+</div>
+    <script type="text/javascript" src="https://storage.sociabuzz.com/storage/js/main/buttononwebsite/index.min.js"></script><script>sbBoW.draw("adiett","ZG9uYXRl","position-bottom-right","#3a6c00","#FFFFFF")</script>
     <div class="text-center text-sm text-gray-400 fade-up">
       <a href="index.html" class="underline hover:text-white">Kembali ke Halaman Utama</a>
     </div>
 
     <p class="text-center text-xs text-gray-500 fade-up">powered by <strong>Ditss</strong></p>
-  </div>  
+  </div>
 
-  <script>
+  <!-- Tambahkan script di bawah <script> utama -->
+<script>
+  function startDownload(filename, progressId, textId) {
+    const progressBar = document.getElementById(progressId);
+    const progressText = document.getElementById(textId);
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", `public/files/${filename}`, true);
+    xhr.responseType = "blob";
+
+    xhr.onprogress = function (e) {
+      if (e.lengthComputable) {
+        const percent = Math.round((e.loaded / e.total) * 100);
+        progressBar.style.width = percent + "%";
+        progressText.textContent = `Progress: ${percent}% (${formatBytes(e.loaded)} / ${formatBytes(e.total)})`;
+      }
+    };
+
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        const a = document.createElement('a');
+        a.href = window.URL.createObjectURL(xhr.response);
+        a.download = filename;
+        a.click();
+        progressText.textContent = `Download selesai: ${formatBytes(xhr.response.size)}`;
+      } else {
+        progressText.textContent = "Gagal mendownload.";
+      }
+    };
+
+    xhr.onerror = function () {
+      progressText.textContent = "Terjadi kesalahan jaringan.";
+    };
+
+    xhr.send();
+  }
+
+  function formatBytes(bytes, decimals = 2) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024,
+          dm = decimals < 0 ? 0 : decimals,
+          sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+  }
     window.addEventListener("load", () => {
       document.getElementById("loader").style.display = "none";
     });
@@ -192,45 +247,6 @@
         });
       }, 30);
     });
-
-    // Real-time download progress
-    document.getElementById("downloadLink").addEventListener("click", function(event) {
-      event.preventDefault(); // Mencegah link dari menjalankan aksi default (mengund
-            // uh file langsung)
-      const downloadProgress = document.getElementById("downloadProgress");
-      const progressBar = document.getElementById("progressBar");
-
-      downloadProgress.classList.remove("hidden");
-
-      const xhr = new XMLHttpRequest();
-      xhr.open("GET", this.href, true);
-      xhr.responseType = "blob"; // Untuk mendownload file sebagai blob
-
-      xhr.onprogress = function(event) {
-        if (event.lengthComputable) {
-          const percentComplete = (event.loaded / event.total) * 100;
-          progressBar.value = percentComplete;
-        }
-      };
-
-      xhr.onload = function() {
-        if (this.status === 200) {
-          const blob = new Blob([this.response], { type: "application/zip" });
-          const link = document.createElement("a");
-          link.href = window.URL.createObjectURL(blob);
-          link.download = "asuma-v6.zip";
-          link.click();
-          downloadProgress.classList.add("hidden");
-        }
-      };
-
-      xhr.onerror = function() {
-        alert("Download gagal. Silakan coba lagi.");
-        downloadProgress.classList.add("hidden");
-      };
-
-      xhr.send();
-    });
   </script>
 </body>
-  </html>
+</html>
