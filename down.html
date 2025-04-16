@@ -113,39 +113,41 @@
 
   <!-- Tambahkan script di bawah <script> utama -->
 <script>
-  function startDownload(filename, progressId, textId) {
-    const progressBar = document.getElementById(progressId);
-    const progressText = document.getElementById(textId);
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", `public/files/${filename}`, true);
-    xhr.responseType = "blob";
+function startDownload(filename, progressId, textId) {
+  const progressBar = document.getElementById(progressId);
+  const progressText = document.getElementById(textId);
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", `public/files/${filename}`, true);
+  xhr.responseType = "blob";
 
-    xhr.onprogress = function (e) {
-      if (e.lengthComputable) {
-        const percent = Math.round((e.loaded / e.total) * 100);
-        progressBar.style.width = percent + "%";
-        progressText.textContent = `Progress: ${percent}% (${formatBytes(e.loaded)} / ${formatBytes(e.total)})`;
-      }
-    };
+  xhr.onprogress = function (e) {
+    if (e.lengthComputable) {
+      const percent = Math.round((e.loaded / e.total) * 100);
+      const currentStep = Math.round((percent / 100) * 100); // Langkah dari 100
+      progressBar.style.width = percent + "%";
+      progressText.textContent = `Progress: ${percent}% (${currentStep}/100%)`;
+    }
+  };
 
-    xhr.onload = function () {
-      if (xhr.status === 200) {
-        const a = document.createElement('a');
-        a.href = window.URL.createObjectURL(xhr.response);
-        a.download = filename;
-        a.click();
-        progressText.textContent = `Download selesai: ${formatBytes(xhr.response.size)}`;
-      } else {
-        progressText.textContent = "Gagal mendownload.";
-      }
-    };
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      const a = document.createElement('a');
+      a.href = window.URL.createObjectURL(xhr.response);
+      a.download = filename;
+      a.click();
+      progressBar.style.width = "100%";
+      progressText.textContent = `Download selesai: 100% (100/100%)`;
+    } else {
+      progressText.textContent = "Gagal mendownload.";
+    }
+  };
 
-    xhr.onerror = function () {
-      progressText.textContent = "Terjadi kesalahan jaringan.";
-    };
+  xhr.onerror = function () {
+    progressText.textContent = "Terjadi kesalahan jaringan.";
+  };
 
-    xhr.send();
-  }
+  xhr.send();
+}
 
   function formatBytes(bytes, decimals = 2) {
     if (bytes === 0) return '0 Bytes';
