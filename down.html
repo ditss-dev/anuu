@@ -113,40 +113,42 @@
 
   <!-- Tambahkan script di bawah <script> utama -->
 <script>
-function startDownload(filename, progressId, textId) {
+async function startDownload(filename, progressId, textId) {
   const progressBar = document.getElementById(progressId);
   const progressText = document.getElementById(textId);
-  const xhr = new XMLHttpRequest();
-  xhr.open("GET", `public/files/${filename}`, true);
-  xhr.responseType = "blob";
+  const url = `public/files/${filename}`;
 
-  xhr.onprogress = function (e) {
-    if (e.lengthComputable) {
-      const percent = Math.round((e.loaded / e.total) * 100);
-      const currentStep = Math.round((percent / 100) * 100); // Langkah dari 100
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("Gagal mengunduh");
+
+    const contentLength = res.headers.get('Content-Length');
+    if (!contentLength) throw new Error("Tidak bisa membaca ukuran file");
+
+    const total = parseInt(contentLength, 10);
+    let loaded = 0;
+    const reader = res.body.getReader();
+    const chunks = [];
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      chunks.push(value);
+      loaded += value.length;
+      const percent = Math.round((loaded / total) * 100);
       progressBar.style.width = percent + "%";
-      progressText.textContent = `Progress: ${percent}% (${currentStep}/100%)`;
+      progressText.textContent = `Progress: ${percent}% (${formatBytes(loaded)} / ${formatBytes(total)})`;
     }
-  };
 
-  xhr.onload = function () {
-    if (xhr.status === 200) {
-      const a = document.createElement('a');
-      a.href = window.URL.createObjectURL(xhr.response);
-      a.download = filename;
-      a.click();
-      progressBar.style.width = "100%";
-      progressText.textContent = `Download selesai: 100% (100/100%)`;
-    } else {
-      progressText.textContent = "Gagal mendownload.";
-    }
-  };
-
-  xhr.onerror = function () {
-    progressText.textContent = "Terjadi kesalahan jaringan.";
-  };
-
-  xhr.send();
+    const blob = new Blob(chunks);
+    const a = document.createElement('a');
+    a.href = window.URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    progressText.textContent = `Download selesai: ${formatBytes(blob.size)}`;
+  } catch (err) {
+    progressText.textContent = "Terjadi kesalahan: " + err.message;
+  }
 }
 
   function formatBytes(bytes, decimals = 2) {
